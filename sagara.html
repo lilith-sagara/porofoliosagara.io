@@ -1,0 +1,713 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kisah Tersembunyi - Lilith Sagara</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Reset dan variabel CSS */
+        :root {
+            --primary: #2c3e50;
+            --secondary: #3498db;
+            --accent: #e74c3c;
+            --light: #ecf0f1;
+            --dark: #2c3e50;
+            --gray: #95a5a6;
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            line-height: 1.6;
+            color: var(--dark);
+            background-color: #f9f9f9;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+
+        section {
+            padding: 80px 0;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 50px;
+            position: relative;
+        }
+
+        .section-title h2 {
+            font-size: 2.5rem;
+            color: var(--primary);
+            display: inline-block;
+            margin-bottom: 15px;
+        }
+
+        .section-title h2::after {
+            content: '';
+            position: absolute;
+            width: 70px;
+            height: 3px;
+            background: var(--secondary);
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 30px;
+            background: var(--secondary);
+            color: white;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: var(--transition);
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            background: var(--primary);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Header & Navigation */
+        header {
+            background-color: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        .logo span {
+            color: var(--secondary);
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+
+        .nav-links li {
+            margin-left: 30px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 500;
+            transition: var(--transition);
+        }
+
+        .nav-links a:hover {
+            color: var(--secondary);
+        }
+
+        .hamburger {
+            display: none;
+            cursor: pointer;
+            font-size: 1.5rem;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            padding: 150px 0 100px;
+            text-align: center;
+        }
+
+        .hero-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+            opacity: 0.9;
+        }
+
+        /* Password Protection */
+        .password-section {
+            background: white;
+            padding: 60px 0;
+            text-align: center;
+        }
+
+        .password-form {
+            max-width: 500px;
+            margin: 0 auto;
+            background: var(--light);
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .password-form h2 {
+            margin-bottom: 20px;
+            color: var(--primary);
+        }
+
+        .password-form p {
+            margin-bottom: 30px;
+            color: var(--gray);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+            transition: var(--transition);
+        }
+
+        .form-control:focus {
+            border-color: var(--secondary);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+        }
+
+        .error-message {
+            color: var(--accent);
+            margin-top: 10px;
+            display: none;
+        }
+
+        /* Article Content */
+        .article-content {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            padding: 50px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            display: none;
+        }
+
+        .article-meta {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .author, .date {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .author-img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .article-img {
+            width: 100%;
+            height: 400px;
+            object-fit: cover;
+            border-radius: 10px;
+            margin: 30px 0;
+        }
+
+        .article-body h2 {
+            font-size: 1.8rem;
+            margin: 30px 0 15px;
+            color: var(--primary);
+        }
+
+        .article-body h3 {
+            font-size: 1.4rem;
+            margin: 25px 0 15px;
+            color: var(--primary);
+        }
+
+        .article-body p {
+            margin-bottom: 20px;
+            line-height: 1.8;
+            color: #555;
+        }
+
+        .article-body blockquote {
+            background: var(--light);
+            border-left: 5px solid var(--secondary);
+            padding: 20px;
+            margin: 30px 0;
+            font-style: italic;
+        }
+
+        .aspect-box {
+            background: var(--light);
+            padding: 25px;
+            border-radius: 8px;
+            margin: 25px 0;
+            border-left: 4px solid var(--secondary);
+        }
+
+        .aspect-box h4 {
+            margin-bottom: 15px;
+            color: var(--primary);
+            font-size: 1.2rem;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--primary);
+            color: white;
+            padding: 50px 0 20px;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .footer-col h3 {
+            font-size: 1.3rem;
+            margin-bottom: 20px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        .footer-col h3::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 50px;
+            height: 2px;
+            background: var(--secondary);
+        }
+
+        .footer-col p {
+            margin-bottom: 15px;
+            opacity: 0.8;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+        }
+
+        .social-links a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            color: white;
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .social-links a:hover {
+            background: var(--secondary);
+            transform: translateY(-3px);
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+
+        .footer-links a {
+            color: white;
+            text-decoration: none;
+            opacity: 0.8;
+            transition: var(--transition);
+        }
+
+        .footer-links a:hover {
+            opacity: 1;
+            padding-left: 5px;
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            opacity: 0.7;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .navbar {
+                padding: 15px 0;
+            }
+            
+            .nav-links {
+                position: fixed;
+                top: 70px;
+                left: -100%;
+                width: 100%;
+                height: calc(100vh - 70px);
+                background: white;
+                flex-direction: column;
+                align-items: center;
+                justify-content: flex-start;
+                padding-top: 50px;
+                transition: var(--transition);
+                box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+            }
+            
+            .nav-links.active {
+                left: 0;
+            }
+            
+            .nav-links li {
+                margin: 15px 0;
+            }
+            
+            .hamburger {
+                display: block;
+            }
+            
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .section-title h2 {
+                font-size: 2rem;
+            }
+            
+            .article-content {
+                padding: 30px 20px;
+            }
+            
+            .article-img {
+                height: 250px;
+            }
+            
+            .article-meta {
+                flex-direction: column;
+                gap: 15px;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .hero {
+                padding: 120px 0 80px;
+            }
+            
+            .hero h1 {
+                font-size: 2rem;
+            }
+            
+            section {
+                padding: 60px 0;
+            }
+            
+            .password-form {
+                padding: 30px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header & Navigation -->
+    <header>
+        <div class="container">
+            <nav class="navbar">
+                <a href="index.html" class="logo">Lilith<span>Sagara</span></a>
+                <ul class="nav-links">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="index.html#about">Tentang</a></li>
+                    <li><a href="index.html#skills">Keahlian</a></li>
+                    <li><a href="index.html#projects">Proyek</a></li>
+                    <li><a href="bot.html">Bot WhatsApp</a></li>
+                    <li><a href="story.html" class="active">Kisah Tersembunyi</a></li>
+                    <li><a href="index.html#contact">Kontak</a></li>
+                </ul>
+                <div class="hamburger">
+                    <i class="fas fa-bars"></i>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1>Kisah Tersembunyi</h1>
+                <p>Sebuah narasi tentang perjalanan hidup dan transformasi</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Password Protection Section -->
+    <section class="password-section">
+        <div class="container">
+            <div class="password-form">
+                <h2>Akses Terbatas</h2>
+                <p>Konten ini dilindungi kata sandi. Masukkan kunci akses untuk melanjutkan.</p>
+                <div class="form-group">
+                    <input type="password" id="password" class="form-control" placeholder="Masukkan kata sandi">
+                    <div class="error-message" id="error-message">Kata sandi salah. Silakan coba lagi.</div>
+                </div>
+                <button id="submit-password" class="btn">Akses Konten</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Article Content (Hidden until password is correct) -->
+    <section class="article" id="article-content" style="display: none;">
+        <div class="container">
+            <div class="article-content" id="protected-content">
+                <div class="article-meta">
+                    <div class="author">
+                        <img src="foto.jpg" alt="Lilith Sagara" class="author-img">
+                        <div>
+                            <strong>Lilith Sagara</strong>
+                            <div>Pencari Makna Kehidupan</div>
+                        </div>
+                    </div>
+                    <div class="date">
+                        <i class="far fa-calendar"></i>
+                        <span>15 Oktober 2025</span>
+                    </div>
+                </div>
+
+                <div class="article-body">
+                    <h1>Lilith Sagara: Sunyi yang Menyimpan Luka</h1>
+                    <p>Sebuah narasi mendalam tentang sisi gelap masa lalu seorang pemuda pencari filosofi kehidupan</p>
+                    
+                    <img src="refleksi.jpg" alt="Refleksi Diri" class="article-img">
+                    
+                    <div class="aspect-box">
+                        <h4>1. Siapa Lilith Sagara?</h4>
+                        <p>Lilith Sagara bukan nama yang dikenal publik. Ia hanyalah seorang pemuda yang menjalani hidupnya dengan tenang, menjelajahi makna-makna kehidupan melalui buku, perjalanan, dan percakapan. Namun di balik ketenangan itu, tersimpan kisah kelam yang membentuk cara pandangnya terhadap dunia.</p>
+                        <p>Di mata orang lain, Lilith tampak sebagai sosok yang pendiam namun penuh pemikiran mendalam. Ia lebih sering ditemukan di sudut perpustakaan atau kafe tenang dengan buku filsafat di tangan, daripada di keramaian. Tapi sedikit yang tahu bahwa ketenangan itu adalah hasil dari pertempuran batin yang panjang.</p>
+                    </div>
+                    
+                    <div class="aspect-box">
+                        <h4>2. Apa yang Terjadi di Masa Lalu?</h4>
+                        <p>Lilith tumbuh dalam keluarga yang tampak harmonis dari luar, namun menyimpan kekerasan di dalamnya. Ayahnya, sosok yang keras dan penuh tuntutan, kerap melampiaskan amarah pada istri dan anak-anaknya. Lilith, sebagai anak sulung, sering menjadi sasaran kekerasan fisik dan verbal.</p>
+                        <p>"Aku masih ingat bagaimana rasanya bersembunyi di kolong tempat tidur, berharap ayah tidak menemukanku," kenang Lilith dalam salah satu percakapan langkanya. "Tapi yang lebih menyakitkan adalah melihat ibuku tak berdaya melindungi kami."</p>
+                        <p>Ibunya, meski penuh kasih, tak mampu melindungi mereka dari siklus kekerasan yang terus berulang. Setiap malam setelah ayahnya pulang kerja, ketegangan mengisi udara di rumah mereka. Suara teriakan dan tangisan menjadi soundtrack masa kecilnya yang tak terlupakan.</p>
+                    </div>
+                    
+                    <div class="aspect-box">
+                        <h4>3. Mengapa Lilith Memilih Diam?</h4>
+                        <p>Selama bertahun-tahun, Lilith menyimpan semuanya sendiri. Rasa malu, takut, dan keinginan untuk menjaga nama baik keluarga membuatnya bungkam. Ia menyalurkan luka-lukanya ke dalam tulisan dan pemikiran.</p>
+                        <blockquote>
+                            "Filsafat menjadi pelarian dan pelipur lara. Di sana aku menemukan bahwa penderitaan bisa dimaknai, bukan hanya ditanggung."
+                        </blockquote>
+                        <p>Ia menulis dalam salah satu catatan pribadinya yang ditemukan di jurnal tua. Halaman-halaman jurnal itu penuh dengan pertanyaan eksistensial dan refleksi tentang penderitaan manusia. Di sanalah ia menemukan suara yang tak bisa diungkapkannya di dunia nyata.</p>
+                        <p>Lilith menjelaskan, "Diamku bukan karena takut, tapi karena aku sedang belajar mendengarkan. Mendengarkan suara hatiku sendiri, memahami mengapa ini terjadi, dan mencari makna di balik semua rasa sakit."</p>
+                    </div>
+                    
+                    <div class="aspect-box">
+                        <h4>4. Bagaimana Luka Itu Membentuknya?</h4>
+                        <p>Pengalaman pahit itu membuat Lilith tumbuh menjadi pribadi yang reflektif dan penuh empati. Ia tidak membenci masa lalunya, tapi menjadikannya bahan renungan. Ia percaya bahwa penderitaan adalah pintu menuju pemahaman yang lebih dalam tentang manusia.</p>
+                        <blockquote>
+                            "Aku tidak ingin membalas, aku ingin memahami."
+                        </blockquote>
+                        <p>Katanya dalam sebuah diskusi komunitas filsafat yang diikutinya secara diam-diam. Di komunitas itulah ia mulai membuka diri sedikit demi sedikit, berbagi pemikiran tanpa harus mengungkap detail masa lalunya.</p>
+                        <p>Proses penyembuhannya tidak instan. Butuh bertahun-tahun baginya untuk bisa memandang masa lalunya tanpa rasa sakit yang mendalam. "Setiap luka mengajarkanku sesuatu tentang ketahanan, tentang arti menjadi manusia yang utuh meski pernah terpecah belah," ujarnya.</p>
+                    </div>
+                    
+                    <div class="aspect-box">
+                        <h4>5. Apa yang Ingin Ia Sampaikan?</h4>
+                        <p>Lilith tidak ingin menjadi simbol atau pahlawan. Ia hanya ingin kisahnya menjadi pengingat bahwa banyak orang hidup dalam luka yang tak terlihat. Ia mendorong siapa pun yang mengalami kekerasan untuk mencari jalan keluar dan menemukan makna di balik penderitaan.</p>
+                        <blockquote>
+                            "Kita tidak bisa memilih dari mana kita berasal, tapi kita bisa memilih ke mana kita melangkah."
+                        </blockquote>
+                        <p>Ucapnya dengan tenang. Meski masih ada bekas luka di hatinya, kini ia memandangnya sebagai bagian dari perjalanan yang membuatnya lebih manusiawi.</p>
+                        <p>Lilith kini aktif dalam komunitas dukungan mental, meski dengan identitas samaran. Ia membantu orang lain yang mengalami trauma serupa, tidak dengan memberikan solusi, tapi dengan mendengarkan dan memahami. "Kadang yang dibutuhkan orang hanyalah didengarkan, tanpa dihakimi, tanpa dinasihati," katanya.</p>
+                    </div>
+                    
+                    <h2>Refleksi Akhir</h2>
+                    <p>Kisah Lilith Sagara mengingatkan kita bahwa setiap orang membawa ceritanya masing-masing. Di balik senyuman dan ketenangan, mungkin tersimpan luka yang dalam. Tapi seperti Lilith, kita bisa memilih untuk tidak didefinisikan oleh luka tersebut, melainkan belajar darinya dan tumbuh menjadi pribadi yang lebih kuat dan penuh empati.</p>
+                    
+                    <p>Perjalanannya dari korban kekerasan menjadi seorang pencari makna kehidupan menunjukkan bahwa penderitaan tidak harus menghancurkan kita. Bisa jadi, justru itulah yang membuat kita lebih memahami arti menjadi manusia seutuhnya.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-col">
+                    <h3>Lilith Sagara</h3>
+                    <p>Full Stack Developer & Pencari Makna Kehidupan dengan passion untuk menciptakan solusi digital yang inovatif dan memahami kompleksitas manusia.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#"><i class="fab fa-github"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+                
+                <div class="footer-col">
+                    <h3>Link Cepat</h3>
+                    <ul class="footer-links">
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="index.html#about">Tentang</a></li>
+                        <li><a href="index.html#skills">Keahlian</a></li>
+                        <li><a href="index.html#projects">Proyek</a></li>
+                        <li><a href="bot.html">Bot WhatsApp</a></li>
+                        <li><a href="story.html">Kisah Tersembunyi</a></li>
+                        <li><a href="index.html#contact">Kontak</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-col">
+                    <h3>Layanan</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">Web Development</a></li>
+                        <li><a href="#">Mobile App Development</a></li>
+                        <li><a href="#">UI/UX Design</a></li>
+                        <li><a href="#">Konseling Dukungan Mental</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                <p>&copy; 2023 Lilith Sagara. All Rights Reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile Navigation Toggle
+        const hamburger = document.querySelector('.hamburger');
+        const navLinks = document.querySelector('.nav-links');
+        
+        hamburger.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+        });
+        
+        // Close mobile menu when clicking on a link
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                navLinks.classList.remove('active');
+            });
+        });
+        
+        // Password Protection System
+        const passwordInput = document.getElementById('password');
+        const submitButton = document.getElementById('submit-password');
+        const errorMessage = document.getElementById('error-message');
+        const articleSection = document.getElementById('article-content');
+        const protectedContent = document.getElementById('protected-content');
+        const passwordSection = document.querySelector('.password-section');
+        
+        const correctPassword = "diorsayang";
+        
+        submitButton.addEventListener('click', () => {
+            if (passwordInput.value === correctPassword) {
+                // Password correct - show content
+                passwordSection.style.display = 'none';
+                articleSection.style.display = 'block';
+                protectedContent.style.display = 'block';
+                errorMessage.style.display = 'none';
+                
+                // Scroll to content
+                window.scrollTo({
+                    top: articleSection.offsetTop - 70,
+                    behavior: 'smooth'
+                });
+            } else {
+                // Password incorrect - show error
+                errorMessage.style.display = 'block';
+                passwordInput.value = '';
+                passwordInput.focus();
+            }
+        });
+        
+        // Allow Enter key to submit password
+        passwordInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                submitButton.click();
+            }
+        });
+        
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                if(targetId === '#') return;
+                
+                const targetElement = document.querySelector(targetId);
+                if(targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 70,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+        
+        // Add scroll effect to navbar
+        window.addEventListener('scroll', () => {
+            const header = document.querySelector('header');
+            if(window.scrollY > 100) {
+                header.style.backgroundColor = 'rgba(255, 255, 255, 0.95)';
+                header.style.boxShadow = '0 2px 10px rgba(0, 0, 0, 0.1)';
+            } else {
+                header.style.backgroundColor = 'white';
+                header.style.boxShadow = '0 2px 10px rgba(0, 0, 0, 0.1)';
+            }
+        });
+    </script>
+</body>
+</html>

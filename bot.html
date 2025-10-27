@@ -1,0 +1,707 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pengembangan Bot WhatsApp - Lilith Sagara</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Reset dan variabel CSS */
+        :root {
+            --primary: #2c3e50;
+            --secondary: #3498db;
+            --accent: #e74c3c;
+            --light: #ecf0f1;
+            --dark: #2c3e50;
+            --gray: #95a5a6;
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            line-height: 1.6;
+            color: var(--dark);
+            background-color: #f9f9f9;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+
+        section {
+            padding: 80px 0;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 50px;
+            position: relative;
+        }
+
+        .section-title h2 {
+            font-size: 2.5rem;
+            color: var(--primary);
+            display: inline-block;
+            margin-bottom: 15px;
+        }
+
+        .section-title h2::after {
+            content: '';
+            position: absolute;
+            width: 70px;
+            height: 3px;
+            background: var(--secondary);
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 30px;
+            background: var(--secondary);
+            color: white;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: var(--transition);
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            background: var(--primary);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Header & Navigation */
+        header {
+            background-color: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        .logo span {
+            color: var(--secondary);
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+
+        .nav-links li {
+            margin-left: 30px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 500;
+            transition: var(--transition);
+        }
+
+        .nav-links a:hover {
+            color: var(--secondary);
+        }
+
+        .hamburger {
+            display: none;
+            cursor: pointer;
+            font-size: 1.5rem;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            padding: 150px 0 100px;
+            text-align: center;
+        }
+
+        .hero-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+            opacity: 0.9;
+        }
+
+        /* Article Content */
+        .article-content {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            padding: 50px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .article-meta {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .author, .date {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .author-img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .article-img {
+            width: 100%;
+            height: 400px;
+            object-fit: cover;
+            border-radius: 10px;
+            margin: 30px 0;
+        }
+
+        .article-body h2 {
+            font-size: 1.8rem;
+            margin: 30px 0 15px;
+            color: var(--primary);
+        }
+
+        .article-body h3 {
+            font-size: 1.4rem;
+            margin: 25px 0 15px;
+            color: var(--primary);
+        }
+
+        .article-body p {
+            margin-bottom: 20px;
+            line-height: 1.8;
+            color: #555;
+        }
+
+        .article-body blockquote {
+            background: var(--light);
+            border-left: 5px solid var(--secondary);
+            padding: 20px;
+            margin: 30px 0;
+            font-style: italic;
+        }
+
+        .stats-box {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 10px;
+            margin: 40px 0;
+            text-align: center;
+        }
+
+        .stats-number {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .stats-label {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        .timeline {
+            margin: 40px 0;
+        }
+
+        .timeline-item {
+            display: flex;
+            margin-bottom: 30px;
+        }
+
+        .timeline-date {
+            flex: 0 0 120px;
+            font-weight: 600;
+            color: var(--secondary);
+        }
+
+        .timeline-content {
+            flex: 1;
+            padding-left: 30px;
+            border-left: 2px solid var(--secondary);
+        }
+
+        .timeline-content h4 {
+            margin-bottom: 10px;
+            color: var(--primary);
+        }
+
+        .tech-stack {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin: 20px 0;
+        }
+
+        .tech-tag {
+            background: var(--light);
+            color: var(--primary);
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .feature-card {
+            background: var(--light);
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 4px solid var(--secondary);
+        }
+
+        .feature-card h4 {
+            margin-bottom: 10px;
+            color: var(--primary);
+        }
+
+        /* Footer */
+        footer {
+            background: var(--primary);
+            color: white;
+            padding: 50px 0 20px;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .footer-col h3 {
+            font-size: 1.3rem;
+            margin-bottom: 20px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        .footer-col h3::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 50px;
+            height: 2px;
+            background: var(--secondary);
+        }
+
+        .footer-col p {
+            margin-bottom: 15px;
+            opacity: 0.8;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+        }
+
+        .social-links a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            color: white;
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .social-links a:hover {
+            background: var(--secondary);
+            transform: translateY(-3px);
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+
+        .footer-links a {
+            color: white;
+            text-decoration: none;
+            opacity: 0.8;
+            transition: var(--transition);
+        }
+
+        .footer-links a:hover {
+            opacity: 1;
+            padding-left: 5px;
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            opacity: 0.7;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .navbar {
+                padding: 15px 0;
+            }
+            
+            .nav-links {
+                position: fixed;
+                top: 70px;
+                left: -100%;
+                width: 100%;
+                height: calc(100vh - 70px);
+                background: white;
+                flex-direction: column;
+                align-items: center;
+                justify-content: flex-start;
+                padding-top: 50px;
+                transition: var(--transition);
+                box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+            }
+            
+            .nav-links.active {
+                left: 0;
+            }
+            
+            .nav-links li {
+                margin: 15px 0;
+            }
+            
+            .hamburger {
+                display: block;
+            }
+            
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .section-title h2 {
+                font-size: 2rem;
+            }
+            
+            .article-content {
+                padding: 30px 20px;
+            }
+            
+            .article-img {
+                height: 250px;
+            }
+            
+            .article-meta {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .timeline-item {
+                flex-direction: column;
+            }
+            
+            .timeline-date {
+                margin-bottom: 10px;
+            }
+            
+            .timeline-content {
+                padding-left: 0;
+                border-left: none;
+                padding-top: 10px;
+                border-top: 2px solid var(--secondary);
+            }
+            
+            .feature-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .hero {
+                padding: 120px 0 80px;
+            }
+            
+            .hero h1 {
+                font-size: 2rem;
+            }
+            
+            section {
+                padding: 60px 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header & Navigation -->
+    <header>
+        <div class="container">
+            <nav class="navbar">
+                <a href="index.html" class="logo">Lilith<span>Sagara</span></a>
+                <ul class="nav-links">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="index.html#about">Tentang</a></li>
+                    <li><a href="index.html#skills">Keahlian</a></li>
+                    <li><a href="index.html#projects">Proyek</a></li>
+                    <li><a href="bot.html" class="active">Bot WhatsApp</a></li>
+                    <li><a href="index.html#contact">Kontak</a></li>
+                </ul>
+                <div class="hamburger">
+                    <i class="fas fa-bars"></i>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1>Perjalanan Pengembangan Bot WhatsApp</h1>
+                <p>Dari fitur sederhana hingga ekosistem multifungsi dengan 89 update</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Article Content -->
+    <section class="article">
+        <div class="container">
+            <div class="article-content">
+                <div class="article-meta">
+                    <div class="author">
+                        <img src="foto.jpg" alt="Lilith Sagara" class="author-img">
+                        <div>
+                            <strong>Lilith Sagara</strong>
+                            <div>Full Stack Developer</div>
+                        </div>
+                    </div>
+                    <div class="date">
+                        <i class="far fa-calendar"></i>
+                        <span>15 Maret 2025</span>
+                    </div>
+                </div>
+
+                <div class="article-body">
+                    <img src="https://images.unsplash.com/photo-1611605698335-8b1569810432?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" alt="WhatsApp Bot Development" class="article-img">
+                    
+                    <h2>Awal Perjalanan Saya: Mengenal BETABOTZ API</h2>
+                    <p>Perkenalan saya dengan dunia bot WhatsApp dimulai dari satu titik penting: BETABOTZ API. Saat itu, saya sedang mencari cara agar bisa membuat bot WhatsApp yang fleksibel dan bisa dikembangkan sesuai kebutuhan. BETABOTZ menjadi jawaban.</p>
+                    
+                    <p>Dengan BETABOTZ, saya mendapatkan API Key yang bisa saya gunakan untuk mengakses berbagai fitur, Library WhatsApp yang memudahkan saya dalam menghubungkan bot ke WhatsApp, dan sistem modular yang memungkinkan saya menambahkan fitur baru dengan cepat.</p>
+                    
+                    <p>BETABOTZ bukan hanya alat, tapi fondasi utama yang membuka pintu menuju eksplorasi fitur-fitur luar biasa.</p>
+                    
+                    <div class="stats-box">
+                        <div class="stats-number">89x</div>
+                        <div class="stats-label">Total Update & Improvement</div>
+                        <p>Sejak versi pertama hingga sekarang</p>
+                    </div>
+                    
+                    <h2>Evolusi Bot WhatsApp Saya: Dari Tagall ke Ribuan Fitur</h2>
+                    <p>Awalnya, saya hanya ingin membuat bot sederhana untuk menandai semua anggota grup WhatsApp. Tapi rasa penasaran saya membawa perjalanan ini jauh lebih jauh.</p>
+                    
+                    <h3>Tahap 1: Fitur Tagall Group</h3>
+                    <p>Saya mulai dari fitur paling dasar: tagall. Bot ini bisa menyebut semua anggota grup secara otomatis. Sangat berguna untuk pengumuman atau koordinasi cepat.</p>
+                    
+                    <h3>Tahap 2: Fitur Utility</h3>
+                    <p>Setelah berhasil dengan tagall, saya mulai menambahkan fitur-fitur praktis seperti downloader yang bisa unduh video dari YouTube, TikTok, Instagram, dan lainnya. Saya juga menambahkan fitur stalk Instagram untuk melihat profil, postingan, dan statistik pengguna IG, serta text tools untuk convert teks ke QR code, base64, dan format lainnya.</p>
+                    
+                    <div class="feature-grid">
+                        <div class="feature-card">
+                            <h4>Downloader</h4>
+                            <p>Mendukung YouTube, TikTok, Instagram, dan platform lainnya</p>
+                        </div>
+                        <div class="feature-card">
+                            <h4>Stalk Instagram</h4>
+                            <p>Analisis profil dan statistik pengguna Instagram</p>
+                        </div>
+                        <div class="feature-card">
+                            <h4>Text Tools</h4>
+                            <p>Konversi teks ke berbagai format termasuk QR code</p>
+                        </div>
+                    </div>
+                    
+                    <h3>Tahap 3: Integrasi AI</h3>
+                    <p>Di tahap ini, saya mulai bermain dengan kecerdasan buatan. Saya mengembangkan AI Chatbot yang bisa menjawab pertanyaan dengan respons cerdas. Saya juga mengintegrasikan OpenAI dan Gemini untuk analisis teks dan percakapan natural, serta menambahkan Bard untuk variasi perspektif jawaban.</p>
+                    
+                    <h3>Tahap 4: Fitur Kreatif</h3>
+                    <p>Saya ingin bot saya bisa menghibur dan membantu secara visual. Saya membuat pembuat stiker otomatis dimana gambar atau teks bisa langsung jadi stiker WhatsApp. Juga avatar generator untuk membuat avatar dari foto profil, serta voice-to-text dan text-to-voice untuk mengubah suara jadi teks dan sebaliknya.</p>
+                    
+                    <h3>Tahap 5: Bot Multifungsi</h3>
+                    <p>Kini bot saya sudah seperti asisten digital dengan statistik grup, auto-responder, anti-spam, auto-welcome. Juga integrasi API eksternal seperti berita, cuaca, dan harga kripto, serta sistem modular yang bisa disesuaikan dengan kebutuhan pengguna.</p>
+                    
+                    <div class="tech-stack">
+                        <span class="tech-tag">Node.js</span>
+                        <span class="tech-tag">BETABOTZ API</span>
+                        <span class="tech-tag">OpenAI</span>
+                        <span class="tech-tag">Gemini</span>
+                        <span class="tech-tag">Bard</span>
+                        <span class="tech-tag">MongoDB</span>
+                        <span class="tech-tag">Redis</span>
+                    </div>
+                    
+                    <h2>Refleksi: Dari Eksperimen ke Ekosistem</h2>
+                    <p>Perjalanan saya dari membuat bot sederhana hingga menciptakan ekosistem bot multifungsi benar-benar luar biasa. Semua berawal dari rasa ingin tahu dan semangat eksplorasi. BETABOTZ API menjadi fondasi yang memungkinkan saya terus berkembang.</p>
+                    
+                    <blockquote>
+                        "Dari 89 update yang telah dilakukan, saya belajar bahwa konsistensi dan iterasi berkelanjutan adalah kunci dalam pengembangan produk digital yang sukses."
+                    </blockquote>
+                    
+                    <p>Setiap update membawa pembelajaran baru, baik secara teknis maupun dalam memahami kebutuhan pengguna. Proses ini mengajarkan saya pentingnya mendengarkan feedback dan terus beradaptasi dengan perkembangan teknologi.</p>
+                    
+                    <h2>Masa Depan Pengembangan</h2>
+                    <p>Ke depan, saya berencana untuk terus mengembangkan bot ini dengan fitur-fitur yang lebih canggih. Fokus saya adalah pada peningkatan kemampuan AI, integrasi dengan lebih banyak platform, dan pengalaman pengguna yang lebih intuitif.</p>
+                    
+                    <p>Dengan semangat terus belajar dan berinovasi, saya yakin solusi ini akan terus berkembang dan memberikan nilai lebih bagi pengguna di seluruh dunia.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-col">
+                    <h3>Lilith Sagara</h3>
+                    <p>Full Stack Developer & UI/UX Designer dengan passion untuk menciptakan solusi digital yang inovatif dan user-friendly.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#"><i class="fab fa-github"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+                
+                <div class="footer-col">
+                    <h3>Link Cepat</h3>
+                    <ul class="footer-links">
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="index.html#about">Tentang</a></li>
+                        <li><a href="index.html#skills">Keahlian</a></li>
+                        <li><a href="index.html#projects">Proyek</a></li>
+                        <li><a href="bot.html">Bot WhatsApp</a></li>
+                        <li><a href="index.html#contact">Kontak</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-col">
+                    <h3>Layanan</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">Web Development</a></li>
+                        <li><a href="#">Mobile App Development</a></li>
+                        <li><a href="#">UI/UX Design</a></li>
+                        <li><a href="#">Chatbot Development</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                <p>&copy; 2023 Lilith Sagara. All Rights Reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile Navigation Toggle
+        const hamburger = document.querySelector('.hamburger');
+        const navLinks = document.querySelector('.nav-links');
+        
+        hamburger.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+        });
+        
+        // Close mobile menu when clicking on a link
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                navLinks.classList.remove('active');
+            });
+        });
+        
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                if(targetId === '#') return;
+                
+                const targetElement = document.querySelector(targetId);
+                if(targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 70,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+        
+        // Add scroll effect to navbar
+        window.addEventListener('scroll', () => {
+            const header = document.querySelector('header');
+            if(window.scrollY > 100) {
+                header.style.backgroundColor = 'rgba(255, 255, 255, 0.95)';
+                header.style.boxShadow = '0 2px 10px rgba(0, 0, 0, 0.1)';
+            } else {
+                header.style.backgroundColor = 'white';
+                header.style.boxShadow = '0 2px 10px rgba(0, 0, 0, 0.1)';
+            }
+        });
+    </script>
+</body>
+</html>
